@@ -16,7 +16,7 @@
     <!--[if lt IE 9]>
     <script src="../../static/js/html5shiv.js"></script>
     <script src="../../static/js/respond.min.js"></script>
-    <![endif]-->       
+    <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -39,7 +39,7 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
-							
+
 						</div>
 					</div>
 				</div>
@@ -47,21 +47,21 @@
 		</div><!--/header_top-->
 
 
-		
+
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-						
+
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">
-							
+
 							</div>
-							
+
 							<div class="btn-group">
-								
+
 							</div>
 						</div>
 					</div>
@@ -100,17 +100,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for item in cart %}
+						{% for item in order %}
 							<tr>
-								<td class="cart_product">
-									<a href=""><img class="cart-small-image" style="width:180px;"src={{item.image}} alt={{item.image}}></a>
-								</td>
+
 								<td class="cart_description">
-									<h4><a href="">{{item.name}}</a></h4>
-									<p>{{item.brand}}</p>
+									<h4><a href="">{{item.id}}</a></h4>
+									<p>{{item.status}}</p>
 								</td>
-								<td class="cart_price">
-									<p>Rs. {{item.price}}</p>
+								<td class="cart_	price">
+									<p>Rs. {{item.amount}}</p>
 								</td>
 								<!-- <td class="cart_quantity">
 									<div class="cart_quantity_button">
@@ -120,13 +118,9 @@
 									</div>
 								</td> -->
 								<td class="cart_total">
-									<p class="cart_total_price">Rs. {{item.price}}</p>
+									<p class="cart_total_price">Rs. {{item.amount}}</p>
 								</td>
-								<td class="cart_delete">
-									<button class="cart_quantity_delete delete-item-btn" cart_id={{item.id}} id="delete-item-cart-button{{item.id}}" />
-										<i class="fa fa-times"></i>
 
-								</td>
 							</tr>
 						{% endfor %}
 						<tr>
@@ -151,7 +145,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="total_area">
-						
+
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -195,7 +189,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -210,7 +204,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -225,7 +219,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -250,7 +244,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="footer-widget">
 			<div class="container">
 				<div class="row">
@@ -312,11 +306,11 @@
 							</form>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
@@ -325,7 +319,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</footer><!--/Footer-->
 	
 

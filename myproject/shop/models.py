@@ -31,10 +31,9 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.userid)
 
-class Checkout(models.Model):
-    checkout_id=models.CharField(primary_key=True, max_length=50)
+
+class Address(models.Model):
     userid=models.ForeignKey(register, on_delete=models.CASCADE)
-    product_id=models.ForeignKey(products, on_delete=models.CASCADE)
     fname=models.CharField(max_length=50)
     lname=models.CharField(max_length=50)
     hm_name=models.CharField(max_length=50)
@@ -44,16 +43,28 @@ class Checkout(models.Model):
     mobile=models.CharField(max_length=10)
 
     def __str__(self):
-        return  str(self.checkout_id)
+        return  str(self.id)
 
 class Order(models.Model):
-    order_id=models.CharField(max_length=50)
     userid = models.ForeignKey(register, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(products, on_delete=models.CASCADE)
-    amount=models.CharField(max_length=10)
-    pay_method=models.CharField(max_length=50)
+    address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
+    amount =models.CharField(max_length=10)
+    payment_method=models.CharField(max_length=50)
+    status=models.CharField(max_length=50, default="Order Placed")
+    created=models.DateTimeField(auto_now=True)
+    updated=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return  str(self.order_id)
+        return  str(self.id)
+
+
+class OrderDetail(models.Model):
+    order_id=models.ForeignKey(Order, on_delete=models.CASCADE)
+    product_id=models.ForeignKey(products, on_delete=models.CASCADE)
+    quantity=models.CharField(max_length=50)
+    price=models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.id)
 
 

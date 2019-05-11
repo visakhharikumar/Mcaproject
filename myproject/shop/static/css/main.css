@@ -1906,6 +1906,10 @@ h2.title {
   width: 47%
 }
 
+.form-one {
+  float: left;
+  width: 100%;
+}
 
 .shopper-info > form > input, 
 .form-two > form > select, 
@@ -2533,7 +2537,7 @@ h2.title {
   width: auto;
 }
 
-.cart-total-amount{
+.cart-total-amount{ss
     color: #FE980F;
     font-size: 24px;
 }

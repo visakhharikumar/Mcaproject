@@ -49,16 +49,21 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="{%url 'shop:user_orders' %}""><i class="fa fa-user"></i> MyOrders</a></li>
+								{%if logged_in%}
+								<li><a href="{%url 'shop:user_cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{%url 'shop:logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
+								{%else%}
+								<li><a href="{%url 'shop:login' %}"><i class="fa fa-lock"></i> Login</a></li>
+								{%endif%}
+
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header-middle-->
-	
+
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
@@ -73,16 +78,8 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="shop_home">Home</a></li>
-								<li class="dropdown"><a href="#" class="active">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html" class="active">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="login.html">Login</a></li>
-                                    </ul>
-                                </li>
+								<li><a href="{%url 'shop:s_home' %}">Home</a></li>
+
 
 								<li><a href="contact-us.html">Contact</a></li>
 							</ul>
@@ -110,7 +107,7 @@
 						{% for cat in categories %}
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">{{cat}}</a></h4>
+									<h4 class="panel-title"><a href="{%url 'shop:prod_category' cat%}">{{cat}}</a></h4>
 								</div>
 							</div>
 						{% endfor %}
@@ -201,4 +198,10 @@
 
 
 </body>
+<script>
+	$( document ).ready(function() {
+	var l="{{logged_in}}";
+    alert(l);
+});
+</script>
 </html>
