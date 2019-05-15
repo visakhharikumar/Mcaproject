@@ -128,6 +128,60 @@ def category_view(request,cat):
 
     return  render(request,'shop/myshop.html', { 'products': data, 'types': types,'brands': brands,'categories': categories, })
 
+def types_view(request,ty):
+    try:
+        logged_in = request.session['user_id']
+    except:
+        logged_in = False
+
+    print("logged_in", logged_in)
+
+    s = products.objects.filter(type=ty)
+    categories = []
+    brands = []
+    types = []
+    data = []
+    for item in s:
+        temp_object = {}
+        temp_object['id'] = item.id
+        temp_object['name'] = item.name
+        temp_object['image'] = "../../" + str(item.image)[5:]
+        temp_object['price'] = item.price
+        temp_object['brand'] = item.brand
+        categories.append(item.category)
+        brands.append(item.brand)
+        types.append(item.type)
+        data.append(temp_object)
+
+    return  render(request,'shop/myshop.html', { 'products': data, 'types': types,'brands': brands,'categories': categories, })
+
+def brand_view(request,bran):
+    try:
+        logged_in = request.session['user_id']
+    except:
+        logged_in = False
+
+    print("logged_in", logged_in)
+
+    s = products.objects.filter(brand=bran)
+    categories = []
+    brands = []
+    types = []
+    data = []
+    for item in s:
+        temp_object = {}
+        temp_object['id'] = item.id
+        temp_object['name'] = item.name
+        temp_object['image'] = "../../" + str(item.image)[5:]
+        temp_object['price'] = item.price
+        temp_object['brand'] = item.brand
+        categories.append(item.category)
+        brands.append(item.brand)
+        types.append(item.type)
+        data.append(temp_object)
+
+    return  render(request,'shop/myshop.html', { 'products': data, 'types': types,'brands': brands,'categories': categories, })
+
 def checkout(request):
     try:
         logged_in = request.session['user_id']
@@ -162,11 +216,10 @@ def checkout(request):
 
         Order.objects.filter(id=order.id).update(amount=str(total))
 
-        Cart.objects.filter(userid=logged_in).delete()  
-        
+        Cart.objects.filter(userid=logged_in).delete()
 
-
-        return  render(request,'shop/checkout.html')
+        return render(request, 'shop/confirm.html')
+    # return  render(request,'shop/checkout.html')
     else:
         s1 = Cart.objects.filter(userid=logged_in).all()
         data = []
@@ -195,14 +248,81 @@ def order(request):
     for item in s1:
         temp_object = {}
         temp_object['id'] = item.id
+        temp_object['address_id'] = item.address_id
         temp_object['status'] = item.status
         temp_object['amount'] = item.amount
         # temp_object['image'] = "../../" + str(item.product_id.image)[5:]
         temp_object['payment_method'] = item.payment_method
+        temp_object['created'] = item.created
         total = total + float(item.amount)
         data.append(temp_object)
         print(data)
     return render(request, 'shop/order-list.html', {'order': data, 'total': total})
+
+def order_details(request,itmid):
+    print('order')
+    try:
+        logged_in = request.session['user_id']
+    except:
+        logged_in = False
+    s1 = OrderDetail.objects.filter(order_id=itmid).all()
+    data = []
+    total = 0.0
+
+    for item in s1:
+        temp_object = {}
+        temp_object['id'] = item.order_id
+        temp_object['product_id'] = item.product_id
+        temp_object['name'] = item.product_id.name
+        temp_object['brand'] = item.product_id.brand
+        temp_object['image'] = "../../" + str(item.product_id.image)[5:]
+        temp_object['price'] = item.product_id.price
+        temp_object['status'] = item.order_id.status
+        temp_object['payment_method'] = item.order_id.payment_method
+
+        total = total + float(item.product_id.price)
+        data.append(temp_object)
+        print(data)
+    return render(request, 'shop/order-detail.html', {'order_details': data, 'total': total})
+
+def invoice(request,odid):
+    print('order')
+    try:
+        logged_in = request.session['user_id']
+    except:
+        logged_in = False
+    s1 = Order.objects.filter(id=odid).all()
+    s2 = OrderDetail.objects.filter(order_id=odid).all()
+    itm = []
+    data = []
+    total = 0.0
+
+    for item in s1:
+        temp_object = {}
+        temp_object['id'] = item.id
+        temp_object['address_id'] = item.address_id
+        temp_object['fname'] = item.address_id.fname
+        temp_object['lname'] = item.address_id.lname
+        temp_object['hm_name'] = item.address_id.hm_name
+        temp_object['address1'] = item.address_id.address1
+        temp_object['address2'] = item.address_id.address2
+        temp_object['pincode'] = item.address_id.pincode
+        temp_object['mobile'] = item.address_id.mobile
+        temp_object['payment_method'] = item.payment_method
+        data.append(temp_object)
+        print(data)
+
+    for item1 in s2:
+        temp_object = {}
+        temp_object['id'] = item1.order_id
+        temp_object['product_id'] = item1.product_id
+        temp_object['name'] = item1.product_id.name
+        temp_object['brand'] = item1.product_id.brand
+        temp_object['price'] = item1.product_id.price
+        total = total + float(item1.product_id.price)
+        itm.append(temp_object)
+
+    return render(request, 'shop/invoice.html', { 'inv': data, 'inv1':itm, 'total': total })
 
 # @csrf_protect
 def delete_cart(request):
@@ -267,3 +387,7 @@ def cart(request):
 
 def payment(request):
     return render(request, 'shop/payment.html')
+
+def purchase(request):
+    return render(request, 'shop/confirm.html')
+

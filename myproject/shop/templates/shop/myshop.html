@@ -49,8 +49,8 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="{%url 'shop:user_orders' %}""><i class="fa fa-user"></i> MyOrders</a></li>
 								{%if logged_in%}
+								<li><a href="{%url 'shop:user_orders' %}"><i class="fa fa-user"></i> MyOrders</a></li>
 								<li><a href="{%url 'shop:user_cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="{%url 'shop:logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
 								{%else%}
@@ -118,7 +118,7 @@
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 								{% for bran in brands %}
-									<li><a href=""> {{bran}}</a></li>
+									<li><a href="{%url 'shop:prod_brand' bran%}"> {{bran}}</a></li>
 								{% endfor %}
 								</ul>
 							</div>
@@ -129,7 +129,7 @@
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 								{% for ty in types %}
-									<li><a href=""> {{ty}}</a></li>
+									<li><a href="{%url 'shop:prod_types' ty%}"> {{ty}}</a></li>
 								{% endfor %}
 								</ul>
 							</div>

@@ -15,4 +15,10 @@ urlpatterns=[
     path('order/',views.order, name='user_orders'),
     path('payment/',views.payment, name='user_payment'),
     path('category/<str:cat>',views.category_view, name='prod_category'),
+    path('types/<str:ty>', views.types_view, name='prod_types'),
+    path('brands/<str:bran>', views.brand_view, name='prod_brand'),
+    path('ord_info/<int:itmid>', views.order_details, name='order_info'),
+    path('purchase/', views.purchase, name='purchase'),
+    path('invoice/<int:odid>', views.invoice, name='user_invoice'),
+
 ]

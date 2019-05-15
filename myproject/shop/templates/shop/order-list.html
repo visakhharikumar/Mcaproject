@@ -69,7 +69,7 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 
-								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="{%url 'shop:s_home' %}">Home</a></li>
 								<li><a href="{%url 'shop:user_cart' %}" class="active"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="{%url 'shop:logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
 							</ul>
@@ -85,17 +85,18 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="{%url 'shop:s_home' %}">Home</a></li>
-				  <li class="active">Shopping Cart</li>
+				  <li class="active">My Orders</li>
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="total">Total</td>
+							<td class="image">OrderID</td>
+							<td class="price">Status</td>
+							<td class="total">Amount</td>
+							<td class="mode">Mode of Payemnt</td>
+							<td class="mode">Ordered On</td>
 							<td></td>
 						</tr>
 					</thead>
@@ -104,65 +105,37 @@
 							<tr>
 
 								<td class="cart_description">
-									<h4><a href="">{{item.id}}</a></h4>
-									<p>{{item.status}}</p>
+									<h4><a href="{%url 'shop:order_info' item.id%}">{{item.id}}</a></h4>
+
 								</td>
-								<td class="cart_	price">
-									<p>Rs. {{item.amount}}</p>
+								<td class="cart_description">
+									<h4><a href="{%url 'shop:user_invoice' item.id%}">Invoice</a></h4>
+
 								</td>
-								<!-- <td class="cart_quantity">
-									<div class="cart_quantity_button">
-										<a class="cart_quantity_up" href=""> + </a>
-										<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-										<a class="cart_quantity_down" href=""> - </a>
-									</div>
-								</td> -->
+								<td class="cart_price">
+									<p> {{item.status}}</p>
+								</td>
+
 								<td class="cart_total">
 									<p class="cart_total_price">Rs. {{item.amount}}</p>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price">{{item.payment_method}}</p>
+								</td>
+								</td>
+								<td class="cart_price">
+									<p>{{item.created}}</p>
 								</td>
 
 							</tr>
 						{% endfor %}
-						<tr>
-							<td class="image"></td>
-							<td class="description"></td>
-							<td class="price"></td>
-							<td class="cart-total-amount">Rs. {{total}}</td>
-							<td></td>
-						</tr>
+
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</section> <!--/#cart_items-->
 
-	<section id="do_action">
-		<div class="container">
-			<div class="heading">
-				<h3>What would you like to do next?</h3>
-				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="total_area">
-
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-							<li>Cart Sub Total <span>Rs. {{total}}</span></li>
-							<li>Taxes<span>Rs. 0</span></li>
-							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>Rs. {{total}}</span></li>
-						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="/../checkout">Check Out</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section><!--/#do_action-->
 
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
