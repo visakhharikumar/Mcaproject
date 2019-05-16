@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
 
 # Create your views here.
-from .models import register, products, Cart, Address, Order, OrderDetail
+from .models import register, products, Cart, Address, Order, OrderDetail, OrderStatus
 
 def logout(request):
         request.session['user_id']='';
@@ -48,6 +48,11 @@ def login(request):
                 temp_object['image'] = "../../" + str(item.image)[5:]
                 temp_object['price'] = item.price
                 temp_object['brand'] = item.brand
+                if int(item.quantity):
+                    temp_object['out_of_stock'] = False
+                else:
+                    temp_object['out_of_stock'] = True
+                temp_object['quantity'] = item.quantity
                 categories.append(item.category)
                 brands.append(item.brand)
                 types.append(item.type)
@@ -93,13 +98,17 @@ def shop_home(request):
         temp_object['image'] = "../../" + str(item.image)[5:]
         temp_object['price'] = item.price
         temp_object['brand'] = item.brand
+        if int(item.quantity):
+            temp_object['out_of_stock'] = False
+        else:
+            temp_object['out_of_stock'] = True
+        temp_object['quantity'] = item.quantity
         categories.append(item.category)
         brands.append(item.brand)
         types.append(item.type)
         data.append(temp_object)
 
     return  render(request,'shop/myshop.html', { 'products': data, 'types': types,'brands': brands,'categories': categories,'logged_in':logged_in })
-
 
 def category_view(request,cat):
     try:
@@ -204,13 +213,21 @@ def checkout(request):
         address = Address(userid=user,fname=fn,lname=ln,hm_name=nm,address1=add1,address2=add2,pincode=pinc,mobile=phn)
         address.save()
 
-        order = Order(userid=user, address_id=address, created=datetime.now(), payment_method=payment_method)
+        db_order_status = OrderStatus.objects.filter(id=1).first()
+
+        order = Order(userid=user, address_id=address, created=datetime.now(), payment_method=payment_method, status=db_order_status)
         order.save()
 
         user_cart = Cart.objects.filter(userid=logged_in).all()
         total = 0.0
         for item in user_cart:
             order_detail = OrderDetail(order_id=order, product_id=item.product_id, quantity=item.quantity, price=item.product_id.price)
+            # updating the stock
+            db_product = products.objects.filter(id=item.product_id.id).first()
+            new_quantity = int(db_product.quantity) - int(item.quantity)
+            db_product.quantity=new_quantity
+            db_product.save()
+            # saving order detail
             order_detail.save()
             total = total + float(item.product_id.price)
 
@@ -244,12 +261,17 @@ def order(request):
     s1 = Order.objects.filter(userid=logged_in).all()
     data = []
     total = 0.0
-
+    i='Delivered'
     for item in s1:
         temp_object = {}
         temp_object['id'] = item.id
         temp_object['address_id'] = item.address_id
-        temp_object['status'] = item.status
+        temp_object['status'] = item.status.status_text
+        if (item.status.status_text !="Delivered"):
+            temp_object['delivery'] = False
+        else:
+            temp_object['delivery'] = True
+        temp_object['status_text'] = item.status_text
         temp_object['amount'] = item.amount
         # temp_object['image'] = "../../" + str(item.product_id.image)[5:]
         temp_object['payment_method'] = item.payment_method
@@ -277,7 +299,8 @@ def order_details(request,itmid):
         temp_object['brand'] = item.product_id.brand
         temp_object['image'] = "../../" + str(item.product_id.image)[5:]
         temp_object['price'] = item.product_id.price
-        temp_object['status'] = item.order_id.status
+        temp_object['status_text'] = item.order_id.status_text
+        temp_object['status'] = item.order_id.status.status_text
         temp_object['payment_method'] = item.order_id.payment_method
 
         total = total + float(item.product_id.price)
@@ -301,6 +324,7 @@ def invoice(request,odid):
         temp_object = {}
         temp_object['id'] = item.id
         temp_object['address_id'] = item.address_id
+        temp_object['offc']=item.address_id.hm_name
         temp_object['fname'] = item.address_id.fname
         temp_object['lname'] = item.address_id.lname
         temp_object['hm_name'] = item.address_id.hm_name
@@ -382,7 +406,6 @@ def cart(request):
             total = total + float(item.product_id.price)
             data.append(temp_object)
         return render(request, 'shop/cart.html', { 'cart': data, 'total': total })
-
 
 
 def payment(request):

@@ -45,18 +45,25 @@ class Address(models.Model):
     def __str__(self):
         return  str(self.id)
 
+class OrderStatus(models.Model):
+    status_text = models.CharField(max_length=100, default="Order Placed")
+
+    def __str__(self):
+        return str(self.status_text)
+
+
 class Order(models.Model):
     userid = models.ForeignKey(register, on_delete=models.CASCADE)
     address_id = models.ForeignKey(Address, on_delete=models.CASCADE)
     amount =models.CharField(max_length=10)
     payment_method=models.CharField(max_length=50)
-    status=models.CharField(max_length=50, default="Order Placed")
+    status_text = models.CharField(max_length=50, default="Order Placed")
+    status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, null=True)
     created=models.DateTimeField(auto_now=True)
     updated=models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return  str(self.id)
-
 
 class OrderDetail(models.Model):
     order_id=models.ForeignKey(Order, on_delete=models.CASCADE)

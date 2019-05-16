@@ -28,8 +28,8 @@
 					<div class="col-sm-6 ">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href=""><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href=""><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href=""><i class="fa fa-phone"></i> +91 9633886161</a></li>
+								<li><a href=""><i class="fa fa-envelope"></i> vintagebikersspare.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -135,14 +135,7 @@
 							</div>
 						</div><!--/brands_products-->
 						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b>$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range-->
-						
+
 						<div class="shipping text-center"><!--shipping-->
 						</div><!--/shipping-->
 						
@@ -153,17 +146,26 @@
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
 						{% for prd in products %}
-						<div class="col-sm-4" key={{prd.id}}>
+						<div class="col-sm-4 margin-bottom-10" key={{prd.id}}>
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
 										<img src= {{prd.image}} alt={{prd.image}} class="home-prod-image">
 										<h2>{{prd.name}}</h2>
 										<p>Rs. {{prd.price}}</p>
-										<!--<a href="{% url 'shop:user_cart'%}">-->
-										<button product_id={{prd.id}} id="add-to-cart-button{{prd.id}}" class="shaddy btn btn-default add-to-cart"/>
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart
+										{% if logged_in %}
+											{% if not prd.out_of_stock %}
+												<button product_id={{prd.id}} id="add-to-cart-button{{prd.id}}" class="shaddy btn btn-default add-to-cart"/>
+												<i class="fa fa-shopping-cart"></i>
+												Add to cart
+											{% else %}
+												<button disabled="disabled" class="shaddy btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Out of stock</button>
+
+											{% endif %}
+										{% else %}
+											<li><a href="{% url 'shop:login'  %}"><i class="fa fa-lock"></i> Login</a></li>
+										{% endif %}
+										
 										<!--</a>-->
 									</div>
 									
@@ -192,16 +194,14 @@
     <script src="../../static/js/jquery.prettyPhoto.js"></script>
     <script src="../../static/js/main.js"></script>
 
-    <div>
-		{{ csrf_token }}
-	</div>
+
 
 
 </body>
 <script>
 	$( document ).ready(function() {
 	var l="{{logged_in}}";
-    alert(l);
+    // alert(l);
 });
 </script>
 </html>

@@ -27,7 +27,7 @@ $(document).ready(function(){
 	$(".shaddy").each(function(){
 		
 		$(this).on('click',function(){
-		 alert('hi');
+		 // alert('hi');
 	       var  product_id = $(this).attr("product_id");
 	       // var csrftoken = getCookie('csrftoken');
 	       $.ajax({
@@ -38,7 +38,7 @@ $(document).ready(function(){
 			},
 		    success: function(data){
 		      console.log('succes: '+ data);
-		      alert('data.logged_in'+data.logged_in)
+		      // alert('data.logged_in'+data.logged_in)
 		      obj=JSON.parse(data);
               if(obj.logged_in){
 		       window.location = '/cart'

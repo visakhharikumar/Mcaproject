@@ -16,7 +16,9 @@ body {
 ul li {
   list-style: none;
 }
-
+.margin-bottom-10{
+  margin-bottom: 10px;
+}
 a:hover {
 outline: none;
 text-decoration:none;

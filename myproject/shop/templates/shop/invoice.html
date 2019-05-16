@@ -107,10 +107,12 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+                                <h4>VINTAGE STORE</h4>
                             </td>
                             {% for item in inv %}
+
                             <td>
+
                                 OrderID #: {{item.id}}<br>
                                 {{item.fname}} {{item.lname}}<br>
                             </td>
@@ -123,18 +125,26 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
+                        <b>From Address:</b>
                         {% for item in inv %}
                         <tr>
                             <td>
-                                Pincode :{{item.pincode}}<br>
-                                Mobile : {{item.mobile}}<br>
+                                Vintage Store<br>
+                                VJ Towers,Vyttila
+                                Kochi<br>
+                                Website:vintagebikersspare.com<br>
+                                Pincode :686502<br>
+                                Mobile : 9633886161<br>
 
                             </td>
                             
                             <td>
-                                {{item.hname}}<br>
-                                {{item.address1}}<br>
-                                {{item.address2}}
+                                <b>To Address:</b><br>
+                                {{item.offc}}<br>
+                                Address: {{item.address1}}<br>
+                                {{item.address2}}<br>
+                                Pincode :{{item.pincode}}<br>
+                                Mobile : {{item.mobile}}<br>
                             </td>
                         </tr>
                         {%endfor%}
@@ -201,6 +211,9 @@
                 </td>
             </tr>
         </table>
+        <div class="col-md-12 text-center">
+            <button id="print-invioce-button" onclick="document.getElementById('print-invioce-button').remove(); print()">Print</button>
+        </div>
     </div>
 </body>
 </html>
