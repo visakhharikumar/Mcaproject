@@ -103,9 +103,12 @@ def shop_home(request):
         else:
             temp_object['out_of_stock'] = True
         temp_object['quantity'] = item.quantity
-        categories.append(item.category)
-        brands.append(item.brand)
-        types.append(item.type)
+        if item.category not in categories:
+            categories.append(item.category)
+        if item.category not in brands:
+            brands.append(item.brand)
+        if item.category not in types:
+            types.append(item.type)
         data.append(temp_object)
 
     return  render(request,'shop/myshop.html', { 'products': data, 'types': types,'brands': brands,'categories': categories,'logged_in':logged_in })

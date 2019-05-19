@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "django_settings": "myshop.settings",
+        "s3_bucket": "zappa-61s67fwok",
+        "aws_region": "ap-south-1",
+        "profile_name": "default",
+        "project_name": "myproject",
+        "runtime": "python3.7",
+    }
+}
